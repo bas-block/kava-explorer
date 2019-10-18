@@ -2,15 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { interopDefault } from './utils'
 
-const _58c61777 = () => interopDefault(import('../pages/blocks/index.vue' /* webpackChunkName: "pages/blocks/index" */))
-const _7ce85f68 = () => interopDefault(import('../pages/template.vue' /* webpackChunkName: "pages/template" */))
-const _66bff7f4 = () => interopDefault(import('../pages/transactions/index.vue' /* webpackChunkName: "pages/transactions/index" */))
-const _6b133892 = () => interopDefault(import('../pages/validators/index.vue' /* webpackChunkName: "pages/validators/index" */))
-const _7ab0e2c5 = () => interopDefault(import('../pages/account/_address.vue' /* webpackChunkName: "pages/account/_address" */))
-const _6f9ad8aa = () => interopDefault(import('../pages/blocks/_height.vue' /* webpackChunkName: "pages/blocks/_height" */))
-const _0afc4fa1 = () => interopDefault(import('../pages/transactions/_hash.vue' /* webpackChunkName: "pages/transactions/_hash" */))
-const _011e19c3 = () => interopDefault(import('../pages/validators/_validator.vue' /* webpackChunkName: "pages/validators/_validator" */))
-const _3a0f3658 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _1110f479 = () => interopDefault(import('../pages/blocks/index.vue' /* webpackChunkName: "pages/blocks/index" */))
+const _039e0d6a = () => interopDefault(import('../pages/template.vue' /* webpackChunkName: "pages/template" */))
+const _5f44d0f0 = () => interopDefault(import('../pages/transactions/index.vue' /* webpackChunkName: "pages/transactions/index" */))
+const _18c3c494 = () => interopDefault(import('../pages/validators/index.vue' /* webpackChunkName: "pages/validators/index" */))
+const _28616ec7 = () => interopDefault(import('../pages/account/_address.vue' /* webpackChunkName: "pages/account/_address" */))
+const _cd8b8fa6 = () => interopDefault(import('../pages/blocks/_height.vue' /* webpackChunkName: "pages/blocks/_height" */))
+const _0eb9e323 = () => interopDefault(import('../pages/transactions/_hash.vue' /* webpackChunkName: "pages/transactions/_hash" */))
+const _4b4ebf01 = () => interopDefault(import('../pages/validators/_validator.vue' /* webpackChunkName: "pages/validators/_validator" */))
+const _183173dc = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 Vue.use(Router)
 
@@ -88,39 +88,39 @@ export function createRouter() {
 
     routes: [{
       path: "/blocks",
-      component: _58c61777,
+      component: _1110f479,
       name: "blocks"
     }, {
       path: "/template",
-      component: _7ce85f68,
+      component: _039e0d6a,
       name: "template"
     }, {
       path: "/transactions",
-      component: _66bff7f4,
+      component: _5f44d0f0,
       name: "transactions"
     }, {
       path: "/validators",
-      component: _6b133892,
+      component: _18c3c494,
       name: "validators"
     }, {
       path: "/account/:address?",
-      component: _7ab0e2c5,
+      component: _28616ec7,
       name: "account-address"
     }, {
       path: "/blocks/:height",
-      component: _6f9ad8aa,
+      component: _cd8b8fa6,
       name: "blocks-height"
     }, {
       path: "/transactions/:hash",
-      component: _0afc4fa1,
+      component: _0eb9e323,
       name: "transactions-hash"
     }, {
       path: "/validators/:validator",
-      component: _011e19c3,
+      component: _4b4ebf01,
       name: "validators-validator"
     }, {
       path: "/",
-      component: _3a0f3658,
+      component: _183173dc,
       name: "index"
     }],
 
