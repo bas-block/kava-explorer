@@ -138,7 +138,7 @@ export async function setContext(app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"NODE_ENV":"development","STARGATE":"https://lcd.kava-testnet-3000.bas.network","RPC":"https://rpc.kava-testnet-3000.bas.network","GQL":"http://localhost:8081/gql/graphql","GQL_WS":"ws://localhost:8081/gql/subscriptions","TESTNET":"true","NETWORK":"kava-testnet-3000","STAKE_DENOM":"ukava","BASE_SHORT_TITLE":"Kava","GA_ID":"","BASE_DESCRIPTION":""}
+      env: {"NODE_ENV":"development","STARGATE":"https://lcd.kava-testnet-3000.bas.network","RPC":"https://rpc.kava-testnet-3000.bas.network","GQL":"http://localhost:8081/gql/graphql","GQL_WS":"ws://localhost:8081/gql/subscriptions","TESTNET":"1","NETWORK":"kava-testnet-3000","STAKE_DENOM":"ukava","BASE_SHORT_TITLE":"Kava","GA_ID":"","BASE_DESCRIPTION":""}
     }
     // Only set once
     if (context.req) {
