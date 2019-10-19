@@ -33,7 +33,7 @@ export default {
         );
       }
 
-      if (!data) return;
+      if (!data) return this.address;
 
       return data.details.description.moniker;
     },
@@ -67,7 +67,7 @@ export default {
         );
       }
 
-      if (!data) return;
+      if (!data) return this.address;
 
       return data.details.operator_address;
     }
