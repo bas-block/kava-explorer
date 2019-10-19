@@ -79,6 +79,34 @@
               </v-card-title>
               <v-divider></v-divider>
               <v-card-text>
+                <v-row v-if="msg.type === 'cosmos-sdk/MsgSend'">
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link
+                        :to="`/account/${msg.value.from_address}`"
+                      >{{ msg.value.from_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">From Address</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link :to="`/account/${msg.value.to_address}`">{{ msg.value.to_address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">To Address</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4">
+                      {{ msg.value.amounts[0].amount | toBtsg }}
+                      <span
+                        class="caption"
+                      >{{ msg.value.amounts[0].denom | toMacroDenom }}</span>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Amount</div>
+                  </v-col>
+                </v-row>
+
                 <v-row v-if="msg.type === 'cosmos-sdk/MsgUnjail'">
                   <v-col cols="12">
                     <div class="subtitle-1 grey--text text--darken-4 text-truncate">
@@ -156,6 +184,7 @@
 
 
 <script>
+import { prettyRound } from "~/assets/utils";
 import { toBtsg, toMacroDenom } from "@/filters";
 import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
@@ -175,6 +204,7 @@ export default {
   filters: {
     toBtsg,
     toMacroDenom,
+    prettyRound,
     convertMessageType: value => {
       return value
         .replace("cosmos-sdk/Msg", "")
