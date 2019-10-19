@@ -47,7 +47,7 @@
 
                   <v-col cols="12" md="1" align="center" class="align-self-center">
                     <v-chip color="green" dark v-if="validator.details.status === 2">Active</v-chip>
-                    <v-chip color="red" dark v-if="validator.details.status === 0">Inactive</v-chip>
+                    <v-chip color="red" dark v-if="validator.details.status === 1">Inactive</v-chip>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -106,7 +106,7 @@
                     <v-row>
                       <v-col cols="12">
                         <div class="subtitle-1 grey--text text--darken-4">
-                          {{ validator.voting_power | prettyRound }}
+                          {{ validator.voting_power ? validator.voting_power : 0 | prettyRound }}
                           <span
                             class="caption"
                           >&middot; {{ calculatePower(validator.voting_power) }}%</span>
@@ -377,6 +377,7 @@ export default {
   },
   methods: {
     calculatePower(share) {
+      if (share === null) return 0;
       const sharePower = new BigNumber(share);
       return new BigNumber(sharePower)
         .div(this.totalPower)

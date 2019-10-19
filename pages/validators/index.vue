@@ -43,7 +43,8 @@
             <v-expansion-panel-header>
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="3" sm="3" md="1">
-                  <UIProposerAvatar :validator="validator" size="36px" />
+                  <UIProposerAvatar :validator="validator" size="36px" v-if="validator.address" />
+                  <v-icon v-else dark class="pl-3" color="red" size="18">mdi-circle</v-icon>
                 </v-col>
                 <v-col sm="5" md="4">
                   <div class="font-weight-medium">{{ validator.details.description.moniker }}</div>
@@ -63,7 +64,7 @@
                   align="right"
                 >
                   <div>
-                    {{ validator.voting_power | prettyRound }}
+                    {{ validator.voting_power ? validator.voting_power : 0 | prettyRound }}
                     <span
                       class="caption"
                     >&middot; {{ calculatePower(validator.voting_power) }}%</span>
@@ -93,7 +94,7 @@
                   </p>
                   <div class="body-2 grey--text text--darken-2">Operator Address</div>
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="12" v-if="validator.address">
                   <p
                     class="mb-1"
                     v-if="$vuetify.breakpoint.name === 'xs' || $vuetify.breakpoint.name === 'sm'"
@@ -116,7 +117,7 @@
                 <v-col cols="12">
                   <p
                     class="mb-1"
-                  >{{ validator.voting_power | prettyRound }} {{ $store.getters[`app/stakeDenom`] }}</p>
+                  >{{ validator.voting_power ? validator.voting_power : 0 | prettyRound }} {{ $store.getters[`app/stakeDenom`] }}</p>
                   <div class="body-2 grey--text text--darken-2">Voting Power</div>
                 </v-col>
                 <v-col cols="12" v-if="validator.details.description.details">
@@ -280,6 +281,7 @@ export default {
       this.sort = value;
     },
     calculatePower(share) {
+      if (share === null) return 0;
       const sharePower = new BigNumber(share);
       return new BigNumber(sharePower)
         .div(this.totalPower)
