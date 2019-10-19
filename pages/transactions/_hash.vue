@@ -122,14 +122,14 @@
                     <div class="body-2 grey--text text--darken-1">Operator Address</div>
                   </v-col>
 
-                  <v-col cols="12" md="6">
+                  <v-col cols="12" md="6" v-if="msg.value.Description.identity">
                     <div
                       class="subtitle-1 grey--text text--darken-4 text-truncate"
                     >{{ msg.value.Description.identity }}</div>
                     <div class="body-2 grey--text text--darken-1">Identity</div>
                   </v-col>
 
-                  <v-col cols="12" md="6">
+                  <v-col cols="12" md="6" v-if="msg.value.Description.website">
                     <div
                       class="subtitle-1 grey--text text--darken-4 text-truncate"
                     >{{ msg.value.Description.website }}</div>
@@ -143,14 +143,14 @@
                     <div class="body-2 grey--text text--darken-1">Details</div>
                   </v-col>
 
-                  <v-col cols="12" md="6">
+                  <v-col cols="12" md="6" v-if="msg.value.commission_rate">
                     <div
                       class="subtitle-1 grey--text text--darken-4 text-truncate"
                     >{{ msg.value.commission_rate }}</div>
                     <div class="body-2 grey--text text--darken-1">Commission Rate</div>
                   </v-col>
 
-                  <v-col cols="12" md="6">
+                  <v-col cols="12" md="6" v-if="msg.value.min_self_delegation">
                     <div
                       class="subtitle-1 grey--text text--darken-4"
                     >{{ msg.value.min_self_delegation }}</div>
