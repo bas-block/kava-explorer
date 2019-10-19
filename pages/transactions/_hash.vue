@@ -117,7 +117,9 @@
 
                   <v-col cols="12" md="6">
                     <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <nuxt-link :to="`/account/${msg.value.address}`">{{ msg.value.address }}</nuxt-link>
+                      <nuxt-link :to="`/account/${msg.value.address}`">
+                        <UIProposer :valoper="msg.value.address" />
+                      </nuxt-link>
                     </div>
                     <div class="body-2 grey--text text--darken-1">Operator Address</div>
                   </v-col>
@@ -161,7 +163,7 @@
                 <v-row v-if="msg.type === 'cosmos-sdk/MsgUnjail'">
                   <v-col cols="12">
                     <div class="subtitle-1 grey--text text--darken-4 text-truncate">
-                      <UIProposer :address="msg.value.address" />
+                      <UIProposer :valoper="msg.value.address" />
                     </div>
                     <div class="body-2 grey--text text--darken-1">Validator</div>
                   </v-col>
