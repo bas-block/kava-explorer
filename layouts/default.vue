@@ -2,12 +2,7 @@
   <v-app dark>
     <UINavigationDrawer v-model="drawer" />
 
-    <v-app-bar
-      fixed
-      app
-      color="primary"
-      elevation="2"
-    >
+    <v-app-bar fixed app color="primary" elevation="2">
       <v-app-bar-nav-icon class="ml-0" color="white" @click.stop="drawer = !drawer" />
       <v-toolbar-title class="pl-1">
         <UILogoWhite />
@@ -16,7 +11,7 @@
       <UISearchBar />
       <v-spacer />
       <v-toolbar-items>
-        <UIToolbarChainName />
+        <UIToolbarChainName topbar class="hidden-sm-and-down" />
       </v-toolbar-items>
     </v-app-bar>
     <v-content>

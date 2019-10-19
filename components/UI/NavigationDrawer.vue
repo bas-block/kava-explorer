@@ -12,6 +12,9 @@
       <v-row no-gutters>
         <v-col>
           <img src="/logo-red.svg" alt="Kava Explorer" height="42" class="pt-1" />
+          <div>
+            <UIToolbarChainName class="pt-2" />
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -57,10 +60,11 @@
 
 <script>
 import UISearchBarMobile from "@/components/UI/SearchBarMobile";
-
+import UIToolbarChainName from "@/components/UI/ToolbarChainName";
 export default {
   components: {
-    UISearchBarMobile
+    UISearchBarMobile,
+    UIToolbarChainName
   },
   props: {
     value: {
