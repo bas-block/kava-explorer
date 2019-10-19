@@ -55,7 +55,7 @@
               <v-card-text>
                 <v-row no-gutters>
                   <v-col cols="12" md="6" class="px-3">
-                    <v-row>
+                    <v-row v-if="validator.address">
                       <v-col cols="12">
                         <div
                           class="subtitle-1 grey--text text--darken-4 text-truncate"
