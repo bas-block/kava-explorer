@@ -25,9 +25,9 @@ export default {
       if (!query.length) {
         return;
       }
-      if (query.slice(0, 14) === "kavavaloper") {
+      if (query.slice(0, 11) === "kavavaloper") {
         this.$router.push("/validators/" + query);
-      } else if (query.slice(0, 7) === "kava") {
+      } else if (query.slice(0, 4) === "kava") {
         this.$router.push("/account/" + query);
       } else if (/^\d+$/.test(query)) {
         this.$router.push("/blocks/" + query);
