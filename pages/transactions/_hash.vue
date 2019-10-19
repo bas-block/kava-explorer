@@ -107,6 +107,57 @@
                   </v-col>
                 </v-row>
 
+                <v-row v-if="msg.type === 'cosmos-sdk/MsgEditValidator'">
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.Description.moniker }}</div>
+                    <div class="body-2 grey--text text--darken-1">Moniker</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div class="subtitle-1 grey--text text--darken-4 text-truncate">
+                      <nuxt-link :to="`/account/${msg.value.address}`">{{ msg.value.address }}</nuxt-link>
+                    </div>
+                    <div class="body-2 grey--text text--darken-1">Operator Address</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.Description.identity }}</div>
+                    <div class="body-2 grey--text text--darken-1">Identity</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.Description.website }}</div>
+                    <div class="body-2 grey--text text--darken-1">Website</div>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.Description.details }}</div>
+                    <div class="body-2 grey--text text--darken-1">Details</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4 text-truncate"
+                    >{{ msg.value.commission_rate }}</div>
+                    <div class="body-2 grey--text text--darken-1">Commission Rate</div>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <div
+                      class="subtitle-1 grey--text text--darken-4"
+                    >{{ msg.value.min_self_delegation }}</div>
+                    <div class="body-2 grey--text text--darken-1">Min. Self Delegation</div>
+                  </v-col>
+                </v-row>
+
                 <v-row v-if="msg.type === 'cosmos-sdk/MsgUnjail'">
                   <v-col cols="12">
                     <div class="subtitle-1 grey--text text--darken-4 text-truncate">
