@@ -24,21 +24,21 @@
                   <v-col cols="12" md="10" :class="isMobile ? 'pb-4': ''">
                     <v-row no-gutters>
                       <v-col :align="isMobile ? 'center' : ''">
-                        <h2 class="headline black--text">{{ validator.details.description.moniker }}</h2>
+                        <h2 class="headline black--text">{{ validator.description.moniker }}</h2>
                       </v-col>
                     </v-row>
                     <v-row no-gutters class="mt-3">
                       <v-col cols="12" md="6">
                         <h3
                           class="subtitle-1 grey--text text--darken-4 text-truncate"
-                        >{{ validator.details.operator_address }}</h3>
+                        >{{ validator.operator_address }}</h3>
                         <div class="body-2 grey--text text--darken-1">Operator Address</div>
                       </v-col>
                       <v-col cols="12" md="6">
                         <h3 class="subtitle-1 grey--text text--darken-4 text-truncate">
                           <nuxt-link
-                            :to="`/account/${validator.details.delegator_address}`"
-                          >{{ validator.details.delegator_address }}</nuxt-link>
+                            :to="`/account/${validator.delegator_address}`"
+                          >{{ validator.delegator_address }}</nuxt-link>
                         </h3>
                         <div class="body-2 grey--text text--darken-1">Delegator Address</div>
                       </v-col>
@@ -46,8 +46,8 @@
                   </v-col>
 
                   <v-col cols="12" md="1" align="center" class="align-self-center">
-                    <v-chip color="green" dark v-if="validator.details.status === 2">Active</v-chip>
-                    <v-chip color="red" dark v-if="validator.details.status === 1">Inactive</v-chip>
+                    <v-chip color="green" dark v-if="validator.status === 2">Active</v-chip>
+                    <v-chip color="red" dark v-if="validator.status === 1">Inactive</v-chip>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -64,11 +64,11 @@
                       </v-col>
                     </v-row>
 
-                    <v-row v-if="validator.details.description.website">
+                    <v-row v-if="validator.description.website">
                       <v-col cols="12">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.description.website }}</div>
+                        >{{ validator.description.website }}</div>
                         <div class="body-2 grey--text text--darken-1">Website</div>
                       </v-col>
                     </v-row>
@@ -77,19 +77,19 @@
                       <v-col cols="4">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.commission.commission_rates.rate * 100 }}%</div>
+                        >{{ validator.commission.commission_rates.rate * 100 }}%</div>
                         <div class="body-2 grey--text text--darken-1">Commission Rate</div>
                       </v-col>
                       <v-col cols="4">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.commission.commission_rates.max_rate * 100 }}%</div>
+                        >{{ validator.commission.commission_rates.max_rate * 100 }}%</div>
                         <div class="body-2 grey--text text--darken-1">Max Rate</div>
                       </v-col>
                       <v-col cols="4">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.commission.commission_rates.max_change_rate * 100 }}%</div>
+                        >{{ validator.commission.commission_rates.max_change_rate * 100 }}%</div>
                         <div class="body-2 grey--text text--darken-1">Max Change Rate</div>
                       </v-col>
                     </v-row>
@@ -98,7 +98,7 @@
                       <v-col cols="12">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.commission.update_time }}</div>
+                        >{{ validator.commission.update_time }}</div>
                         <div class="body-2 grey--text text--darken-1">Commission Update Time</div>
                       </v-col>
                     </v-row>
@@ -115,11 +115,11 @@
                       </v-col>
                     </v-row>
 
-                    <v-row v-if="validator.details.description.details">
+                    <v-row v-if="validator.description.details">
                       <v-col cols="12">
                         <div
                           class="subtitle-1 grey--text text--darken-4"
-                        >{{ validator.details.description.details }}</div>
+                        >{{ validator.description.details }}</div>
                         <div class="body-2 grey--text text--darken-1">Description</div>
                       </v-col>
                     </v-row>
@@ -128,7 +128,7 @@
                     <apexchart
                       width="255"
                       type="pie"
-                      :series="[validator.details.self_shares, validator.details.delegator_shares - validator.details.self_shares]"
+                      :series="[validator.self_shares, validator.delegator_shares - validator.self_shares]"
                       :options="chartOptions"
                     ></apexchart>
                   </v-col>
@@ -136,7 +136,7 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
-                          {{ validator.details.self_shares | toBtsg }}
+                          {{ validator.self_shares | toBtsg }}
                           <span
                             class="caption"
                           >{{ $store.getters[`app/stakeDenom`] }}</span>
@@ -147,7 +147,7 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
-                          {{ validator.details.delegator_shares - validator.details.self_shares | toBtsg }}
+                          {{ validator.delegator_shares - validator.self_shares | toBtsg }}
                           <span
                             class="caption"
                           >{{ $store.getters[`app/stakeDenom`] }}</span>
@@ -158,7 +158,7 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
-                          {{ validator.details.delegator_shares | toBtsg }}
+                          {{ validator.delegator_shares | toBtsg }}
                           <span
                             class="caption"
                           >{{ $store.getters[`app/stakeDenom`] }}</span>
@@ -329,26 +329,24 @@ export default {
           validator(operatorAddress: $operatorAddress) {
             address
             voting_power
-            details {
-              operator_address
-              delegator_address
-              status
-              delegator_shares
-              self_shares
-              description {
-                moniker
-                identity
-                website
-                details
+            operator_address
+            delegator_address
+            status
+            delegator_shares
+            self_shares
+            description {
+              moniker
+              identity
+              website
+              details
+            }
+            commission {
+              commission_rates {
+                rate
+                max_rate
+                max_change_rate
               }
-              commission {
-                commission_rates {
-                  rate
-                  max_rate
-                  max_change_rate
-                }
-                update_time
-              }
+              update_time
             }
             delegations {
               delegator_address

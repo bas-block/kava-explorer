@@ -28,14 +28,12 @@ export default {
       if (this.address) {
         data = this.validators.find(v => v.address === this.address);
       } else {
-        data = this.validators.find(
-          v => v.details.operator_address === this.valoper
-        );
+        data = this.validators.find(v => v.operator_address === this.valoper);
       }
 
       if (!data) return this.address;
 
-      return data.details.description.moniker;
+      return data.description.moniker;
     },
     tm_address() {
       if (!this.validators) return;
@@ -45,9 +43,7 @@ export default {
       if (this.address) {
         data = this.validators.find(v => v.address === this.address);
       } else {
-        data = this.validators.find(
-          v => v.details.operator_address === this.valoper
-        );
+        data = this.validators.find(v => v.operator_address === this.valoper);
       }
 
       if (!data) return;
@@ -62,14 +58,12 @@ export default {
       if (this.address) {
         data = this.validators.find(v => v.address === this.address);
       } else {
-        data = this.validators.find(
-          v => v.details.operator_address === this.valoper
-        );
+        data = this.validators.find(v => v.operator_address === this.valoper);
       }
 
       if (!data) return this.address;
 
-      return data.details.operator_address;
+      return data.operator_address;
     }
   }
 };

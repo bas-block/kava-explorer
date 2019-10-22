@@ -61,7 +61,7 @@ typings/
 .next
 
 # Nuxt build
-.nuxt
+.nuxt/
 
 # Nuxt generate
-dist
+dist/

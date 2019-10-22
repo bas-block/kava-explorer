@@ -47,17 +47,17 @@
                   <v-icon v-else dark class="pl-3" color="red" size="18">mdi-circle</v-icon>
                 </v-col>
                 <v-col sm="5" md="4">
-                  <div class="font-weight-medium">{{ validator.details.description.moniker }}</div>
+                  <div class="font-weight-medium">{{ validator.description.moniker }}</div>
                   <div class="caption grey--text text--darken-1 hidden-sm-and-up mt-1">
                     Voting Power {{ validator.voting_power | prettyRound }}
-                    &middot; Comm. {{ validator.details.commission.commission_rates.rate * 100 }}%
+                    &middot; Comm. {{ validator.commission.commission_rates.rate * 100 }}%
                   </div>
                 </v-col>
                 <v-col class="grey--text text-truncate hidden-sm-and-down">
                   Commission &mdash;
                   <span
                     class="grey--text text--darken-3"
-                  >{{ validator.details.commission.commission_rates.rate * 100 }}%</span>
+                  >{{ validator.commission.commission_rates.rate * 100 }}%</span>
                 </v-col>
                 <v-col
                   class="grey--text text--darken-3 text-truncate mr-4 hidden-sm-and-down"
@@ -84,13 +84,13 @@
                     v-if="$vuetify.breakpoint.name === 'xs' || $vuetify.breakpoint.name === 'sm'"
                   >
                     <nuxt-link
-                      :to="`/validators/${validator.details.operator_address}`"
-                    >{{ validator.details.operator_address | address }}</nuxt-link>
+                      :to="`/validators/${validator.operator_address}`"
+                    >{{ validator.operator_address | address }}</nuxt-link>
                   </p>
                   <p class="mb-1" v-else>
                     <nuxt-link
-                      :to="`/validators/${validator.details.operator_address}`"
-                    >{{ validator.details.operator_address }}</nuxt-link>
+                      :to="`/validators/${validator.operator_address}`"
+                    >{{ validator.operator_address }}</nuxt-link>
                   </p>
                   <div class="body-2 grey--text text--darken-2">Operator Address</div>
                 </v-col>
@@ -102,16 +102,14 @@
                   <p class="mb-1" v-else>{{ validator.address }}</p>
                   <div class="body-2 grey--text text--darken-2">Address</div>
                 </v-col>
-                <v-col cols="12" v-if="validator.details.description.website">
+                <v-col cols="12" v-if="validator.description.website">
                   <p class="mb-1">
-                    <a
-                      :href="validator.details.description.website"
-                    >{{ validator.details.description.website }}</a>
+                    <a :href="validator.description.website">{{ validator.description.website }}</a>
                   </p>
                   <div class="body-2 grey--text text--darken-2">Website</div>
                 </v-col>
                 <v-col cols="12">
-                  <p class="mb-1">{{ validator.details.commission.commission_rates.rate * 100 }}%</p>
+                  <p class="mb-1">{{ validator.commission.commission_rates.rate * 100 }}%</p>
                   <div class="body-2 grey--text text--darken-2">Commission</div>
                 </v-col>
                 <v-col cols="12">
@@ -120,8 +118,8 @@
                   >{{ validator.voting_power ? validator.voting_power : 0 | prettyRound }} {{ $store.getters[`app/stakeDenom`] }}</p>
                   <div class="body-2 grey--text text--darken-2">Voting Power</div>
                 </v-col>
-                <v-col cols="12" v-if="validator.details.description.details">
-                  <p class="mb-1">{{ validator.details.description.details }}</p>
+                <v-col cols="12" v-if="validator.description.details">
+                  <p class="mb-1">{{ validator.description.details }}</p>
                   <div class="body-2 grey--text text--darken-2">Description</div>
                 </v-col>
               </v-row>
@@ -156,15 +154,15 @@ export default {
     address: value => shortFilter(value, 14)
   },
   apollo: {
-    validators: {
+    allValidators: {
       prefetch: true,
       query: gql`
-        query Validators($sort: String, $sortDirection: String) {
-          validators(sort: $sort, sortDirection: $sortDirection) {
-            address
-            voting_power
-            proposer_priority
-            details {
+        query allValidators($sort: ValidatorSortInput!) {
+          allValidators(sort: $sort) {
+            docs {
+              address
+              voting_power
+              proposer_priority
               operator_address
               tokens
               status
@@ -184,8 +182,10 @@ export default {
       `,
       variables() {
         return {
-          sort: this.sort.selected,
-          sortDirection: this.sort_direction.selected
+          sort: {
+            field: this.sort.selected,
+            direction: this.sort_direction.selected === "desc" ? -1 : 1
+          }
         };
       }
     }
@@ -216,25 +216,26 @@ export default {
         .label;
     },
     validatorsFormatted() {
-      if (!this.validators) return;
+      if (!this.allValidators) return;
+      if (!this.allValidators.docs) return;
 
-      const validators = this.validators.filter(
-        v => v.details.status === this.status.selected
+      const validators = this.allValidators.docs.filter(
+        v => v.status === this.status.selected
       );
 
       if (this.sort.selected === "moniker") {
         if (this.sort_direction.selected === "desc")
           return validators.sort((a, b) => {
             return (
-              b.details.description.moniker.toLowerCase().charCodeAt() -
-              a.details.description.moniker.toLowerCase().charCodeAt()
+              b.description.moniker.toLowerCase().charCodeAt() -
+              a.description.moniker.toLowerCase().charCodeAt()
             );
           });
 
         return validators.sort((a, b) => {
           return (
-            a.details.description.moniker.toLowerCase().charCodeAt() -
-            b.details.description.moniker.toLowerCase().charCodeAt()
+            a.description.moniker.toLowerCase().charCodeAt() -
+            b.description.moniker.toLowerCase().charCodeAt()
           );
         });
       }
@@ -243,14 +244,14 @@ export default {
         if (this.sort_direction.selected === "desc")
           return validators.sort(
             (a, b) =>
-              b.details.commission.commission_rates.rate -
-              a.details.commission.commission_rates.rate
+              b.commission.commission_rates.rate -
+              a.commission.commission_rates.rate
           );
 
         return validators.sort(
           (a, b) =>
-            a.details.commission.commission_rates.rate -
-            b.details.commission.commission_rates.rate
+            a.commission.commission_rates.rate -
+            b.commission.commission_rates.rate
         );
       }
 

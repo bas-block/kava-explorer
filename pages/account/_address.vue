@@ -404,12 +404,10 @@ export default {
       const validators = this.$store.getters[`validators/validators`];
       if (validators.length === 0) return null;
 
-      const data = validators.find(
-        v => v.details.delegator_address === this.address
-      );
+      const data = validators.find(v => v.delegator_address === this.address);
 
       if (!data) return null;
-      return data.details.operator_address;
+      return data.operator_address;
     },
     commissions() {
       let commissions = 0;

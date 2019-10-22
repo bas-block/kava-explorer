@@ -27,11 +27,11 @@ export const actions = {
 
     const validators = {
       query: gql`
-        query validators {
-          validators {
-            address
-            voting_power
-            details {
+        query allValidators {
+          allValidators {
+            docs {
+              address
+              voting_power
               status
               operator_address
               delegator_address
@@ -45,7 +45,7 @@ export const actions = {
     };
 
     client.query(validators).then(res => {
-      commit("setValidators", res.data.validators);
+      commit("setValidators", res.data.allValidators.docs);
     });
   }
 };
