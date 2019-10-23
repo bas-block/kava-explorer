@@ -240,7 +240,7 @@
                 :height="288"
               >
                 <template v-slot:item.height="{ item }">
-                  <nuxt-link :to="`/block/${item.height}`">Block {{ item.height }}</nuxt-link>
+                  <nuxt-link :to="`/blocks/${item.height}`">Block {{ item.height }}</nuxt-link>
                 </template>
                 <template v-slot:item.created_at="{ item }">{{ item.created_at | toTime }}</template>
               </v-data-table>
