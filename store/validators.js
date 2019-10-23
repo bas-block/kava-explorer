@@ -47,12 +47,10 @@ export const actions = {
           }
         }
       `,
-      variables() {
-        return {
-          pagination: {
-            limit: 200
-          }
-        };
+      variables: {
+        pagination: {
+          limit: 200
+        }
       }
     };
 
