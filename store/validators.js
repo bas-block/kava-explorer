@@ -50,7 +50,7 @@ export const actions = {
       variables() {
         return {
           pagination: {
-            limit: 200
+            limit: 2
           }
         };
       }
