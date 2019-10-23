@@ -22,11 +22,16 @@ export const mutations = {
 };
 
 export const actions = {
-  getValidators({ state, commit, rootState }) {
+  getValidators({
+    state,
+    commit,
+    rootState
+  }) {
     let client = this.app.apolloProvider.defaultClient;
 
     const validators = {
-      query: gql`
+      prefetch: true,
+      query: gql `
         query allValidators($pagination: PaginationInput) {
           allValidators(pagination: $pagination) {
             docs {
