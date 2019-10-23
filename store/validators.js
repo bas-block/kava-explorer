@@ -27,8 +27,8 @@ export const actions = {
 
     const validators = {
       query: gql`
-        query allValidators {
-          allValidators {
+        query allValidators($pagination: PaginationInput) {
+          allValidators(pagination: $pagination) {
             docs {
               address
               voting_power
@@ -41,7 +41,14 @@ export const actions = {
             }
           }
         }
-      `
+      `,
+      variables() {
+        return {
+          pagination: {
+            limit: 200
+          }
+        };
+      }
     };
 
     client.query(validators).then(res => {

@@ -26,6 +26,12 @@
                       <v-col :align="isMobile ? 'center' : ''">
                         <h2 class="headline black--text">{{ validator.description.moniker }}</h2>
                       </v-col>
+                      <v-col cols="12" md="2" align="center">
+                        <v-chip color="red" dark v-if="validator.jailed === true">Jailed</v-chip>
+                        <v-chip color="green" dark v-if="validator.status === 2">Active</v-chip>
+                        <v-chip color="red" dark v-if="validator.status === 1">Inactive</v-chip>
+                        <v-chip color="red" dark v-if="validator.status === 0">Unbonded</v-chip>
+                      </v-col>
                     </v-row>
                     <v-row no-gutters class="mt-3">
                       <v-col cols="12" md="6">
@@ -43,11 +49,6 @@
                         <div class="body-2 grey--text text--darken-1">Delegator Address</div>
                       </v-col>
                     </v-row>
-                  </v-col>
-
-                  <v-col cols="12" md="1" align="center" class="align-self-center">
-                    <v-chip color="green" dark v-if="validator.status === 2">Active</v-chip>
-                    <v-chip color="red" dark v-if="validator.status === 1">Inactive</v-chip>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -332,6 +333,7 @@ export default {
             operator_address
             delegator_address
             status
+            jailed
             delegator_shares
             self_shares
             description {

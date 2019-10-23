@@ -157,8 +157,11 @@ export default {
     allValidators: {
       prefetch: true,
       query: gql`
-        query allValidators($sort: ValidatorSortInput!) {
-          allValidators(sort: $sort) {
+        query allValidators(
+          $sort: ValidatorSortInput!
+          $pagination: PaginationInput
+        ) {
+          allValidators(sort: $sort, pagination: $pagination) {
             docs {
               address
               voting_power
@@ -185,6 +188,9 @@ export default {
           sort: {
             field: this.sort.selected,
             direction: this.sort_direction.selected === "desc" ? -1 : 1
+          },
+          pagination: {
+            limit: 200
           }
         };
       }
@@ -194,7 +200,11 @@ export default {
     return {
       status: {
         selected: 2,
-        items: [{ value: 2, label: "Active" }, { value: 1, label: "Inactive" }]
+        items: [
+          { value: 2, label: "Active" },
+          { value: 1, label: "Inactive" },
+          { value: 0, label: "Unbonded" }
+        ]
       },
       sort: {
         selected: "voting_power",
