@@ -167,7 +167,6 @@ export default {
               voting_power
               proposer_priority
               operator_address
-              tokens
               status
               description {
                 moniker

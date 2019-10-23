@@ -226,6 +226,26 @@
               </v-data-table>
             </v-card>
           </v-col>
+
+          <v-col cols="12">
+            <v-card class="elevation-1">
+              <v-toolbar flat>
+                <v-toolbar-title>Missed Blocks</v-toolbar-title>
+              </v-toolbar>
+              <v-divider></v-divider>
+              <v-data-table
+                :headers="missed_blocks_header"
+                :items-per-page="5"
+                :items="formattedMissingBlocks"
+                :height="288"
+              >
+                <template v-slot:item.height="{ item }">
+                  <nuxt-link :to="`/block/${item.height}`">Block {{ item.height }}</nuxt-link>
+                </template>
+                <template v-slot:item.created_at="{ item }">{{ item.created_at | toTime }}</template>
+              </v-data-table>
+            </v-card>
+          </v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -268,6 +288,12 @@ export default {
   },
   data() {
     return {
+      missed_blocks_header: [
+        { text: "Height", value: "height" },
+        { text: "Active Validators", value: "active_validators" },
+        { text: "Total Validators", value: "total_validators" },
+        { text: "Created At", value: "created_at", sortable: false }
+      ],
       delegations_header: [
         { text: "Delegator Address", value: "delegator_address" },
         { text: "Amount", align: "right", value: "shares" }
@@ -305,6 +331,12 @@ export default {
     },
     totalPower() {
       return this.$store.getters[`validators/totalPower`];
+    },
+    formattedMissingBlocks() {
+      if (!this.validator) return;
+      if (!this.validator.missed_blocks) return;
+
+      return this.validator.missed_blocks;
     },
     formattedUnbondings() {
       if (!this.validator) return;
@@ -364,6 +396,12 @@ export default {
                 initial_balance
                 balance
               }
+            }
+            missed_blocks {
+              height
+              active_validators
+              total_validators
+              created_at
             }
           }
         }
