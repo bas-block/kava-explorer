@@ -37,6 +37,12 @@
       </v-col>
     </v-row>
     <v-row no-gutters>
+      <v-col cols="12" class="mx-auto mt-4">
+        {{this.chartLabels}}
+        <apexchart type="line" height="350" :options="chartOptions" :series="series" />
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
       <v-col cols="12" xl="8" class="mx-auto mt-4">
         <v-expansion-panels>
           <v-expansion-panel v-for="(validator, i) in validatorsFormatted" :key="i" hide-actions>
@@ -137,6 +143,7 @@ import gql from "graphql-tag";
 import BigNumber from "bignumber.js";
 import getTitle from "~/assets/get-title";
 import UIProposerAvatar from "@/components/UI/ProposerAvatar";
+import VueApexCharts from "vue-apexcharts";
 
 export default {
   head() {
@@ -147,13 +154,27 @@ export default {
     };
   },
   components: {
-    UIProposerAvatar
+    UIProposerAvatar,
+    VueApexCharts
   },
   filters: {
     prettyRound,
     address: value => shortFilter(value, 14)
   },
   apollo: {
+    chartValidators: {
+      prefetch: true,
+      query: gql`
+        query chartValidators {
+          chartValidators {
+            height
+            active
+            inactive
+            total
+          }
+        }
+      `
+    },
     allValidators: {
       prefetch: true,
       query: gql`
@@ -216,7 +237,71 @@ export default {
       sort_direction: {
         selected: "desc",
         items: [{ value: "asc", icon: "" }, { value: "desc", icon: "" }]
-      }
+      },
+      chartOptions: {
+        chart: {
+          stacked: false
+        },
+        stroke: {
+          width: [0, 2, 5],
+          curve: "smooth"
+        },
+        labels: this.chartLabels,
+        plotOptions: {
+          bar: {
+            columnWidth: "50%"
+          }
+        },
+        fill: {
+          opacity: [0.85, 0.25, 1],
+          gradient: {
+            inverseColors: false,
+            shade: "light",
+            type: "vertical",
+            opacityFrom: 0.85,
+            opacityTo: 0.55,
+            stops: [0, 100, 100, 100]
+          }
+        },
+        markers: {
+          size: 0
+        },
+        yaxis: {
+          title: {
+            text: "Validators"
+          },
+          min: 0
+        },
+        tooltip: {
+          shared: true,
+          intersect: false,
+          y: {
+            formatter: function(y) {
+              if (typeof y !== "undefined") {
+                return y.toFixed(0) + " validators";
+              }
+              return y;
+            }
+          }
+        }
+      },
+      series: [
+        {
+          name: "Inactive",
+          type: "column",
+          data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+        },
+        {
+          name: "Total",
+          type: "area",
+          data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
+        },
+        {
+          name: "Active",
+          type: "line",
+          data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
+        }
+      ]
     };
   },
   computed: {
@@ -271,6 +356,10 @@ export default {
     },
     totalPower() {
       return this.$store.getters[`validators/totalPower`];
+    },
+    chartLabels() {
+      if (!this.chartValidators) return [];
+      return this.chartValidators.map(r => r.height);
     }
   },
   methods: {
