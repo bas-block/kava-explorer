@@ -55,9 +55,10 @@
         </v-tooltip>
       </template>
       <template v-slot:item.amount="{ item }">
-        <nuxt-link :to="`/transactions/${item.hash}`" style="text-decoration:none">
+        <nuxt-link v-if="!item.msgs[0].value.amount" :to="`/transactions/${item.hash}`" style="text-decoration:none">
           <v-icon size="18">mdi-open-in-new</v-icon>
         </nuxt-link>
+        <UIAmount  v-else v-for="amount in item.msgs[0].value.amount" v-bind:key="amount.amount" :microAmount="amount.amount" :denom="amount.denom" />
       </template>
       <template v-slot:item.height="{ item }">
         <nuxt-link :to="`/blocks/${item.height}`">{{ item.height }}</nuxt-link>
@@ -82,6 +83,7 @@
 <script>
 import { shortFilter, getTimeDistance } from "~/assets/utils";
 import Pagination from "@/components/Pagination";
+import UIAmount from "@/components/UI/Amount";
 
 export default {
   props: {
@@ -110,7 +112,8 @@ export default {
     }
   },
   components: {
-    Pagination
+    Pagination,
+    UIAmount
   },
   filters: {
     hash: value => shortFilter(value, 12),
