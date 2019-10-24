@@ -80,7 +80,6 @@
 </template>
 
 <script>
-import { toBtsg, toMacroDenom } from "@/filters";
 import { shortFilter, getTimeDistance } from "~/assets/utils";
 import Pagination from "@/components/Pagination";
 
@@ -114,8 +113,6 @@ export default {
     Pagination
   },
   filters: {
-    toBtsg,
-    toMacroDenom,
     hash: value => shortFilter(value, 12),
     timeDistance: value => getTimeDistance(value),
     convertMessageType: value => {

@@ -98,10 +98,7 @@
 
                   <v-col cols="12" md="6">
                     <div class="subtitle-1 grey--text text--darken-4">
-                      {{ msg.value.amounts[0].amount | toBtsg }}
-                      <span
-                        class="caption"
-                      >{{ msg.value.amounts[0].denom | toMacroDenom }}</span>
+                      <UIAmount :microAmount="msg.value.amounts[0].amount" :denom="msg.value.amounts[0].denom" />
                     </div>
                     <div class="body-2 grey--text text--darken-1">Amount</div>
                   </v-col>
@@ -186,10 +183,7 @@
                   </v-col>
                   <v-col cols="12">
                     <div class="subtitle-1 grey--text text--darken-4">
-                      {{ msg.value.amount.amount | toBtsg }}
-                      <span
-                        class="caption"
-                      >{{ msg.value.amount.denom | toMacroDenom }}</span>
+                      <UIAmount :microAmount="msg.value.amount.amount" :denom="msg.value.amount.denom" />
                     </div>
                     <div class="body-2 grey--text text--darken-1">Amount</div>
                   </v-col>
@@ -238,10 +232,10 @@
 
 <script>
 import { prettyRound } from "~/assets/utils";
-import { toBtsg, toMacroDenom } from "@/filters";
 import getTitle from "~/assets/get-title";
 import gql from "graphql-tag";
 import UIProposer from "@/components/UI/Proposer";
+import UIAmount from "@/components/UI/Amount";
 
 export default {
   head() {
@@ -252,11 +246,10 @@ export default {
     };
   },
   components: {
-    UIProposer
+    UIProposer,
+    UIAmount
   },
   filters: {
-    toBtsg,
-    toMacroDenom,
     prettyRound,
     convertMessageType: value => {
       return value

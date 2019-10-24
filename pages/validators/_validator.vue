@@ -137,10 +137,7 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
-                          {{ validator.self_shares | toBtsg }}
-                          <span
-                            class="caption"
-                          >{{ $store.getters[`app/stakeDenom`] }}</span>
+                          <UIAmount :microAmount="validator.self_shares" :denom="$store.getters[`app/stakeDenom`]" />
                         </v-list-item-title>
                         <v-list-item-subtitle>Self Delegated</v-list-item-subtitle>
                       </v-list-item-content>
@@ -148,10 +145,7 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
-                          {{ validator.delegator_shares - validator.self_shares | toBtsg }}
-                          <span
-                            class="caption"
-                          >{{ $store.getters[`app/stakeDenom`] }}</span>
+                          <UIAmount :microAmount="validator.delegator_shares - validator.self_shares" :denom="$store.getters[`app/stakeDenom`]" />
                         </v-list-item-title>
                         <v-list-item-subtitle>Others</v-list-item-subtitle>
                       </v-list-item-content>
@@ -159,10 +153,7 @@
                     <v-list-item two-line>
                       <v-list-item-content>
                         <v-list-item-title>
-                          {{ validator.delegator_shares | toBtsg }}
-                          <span
-                            class="caption"
-                          >{{ $store.getters[`app/stakeDenom`] }}</span>
+                          <UIAmount :microAmount="validator.delegator_shares" :denom="$store.getters[`app/stakeDenom`]" />
                         </v-list-item-title>
                         <v-list-item-subtitle>Total</v-list-item-subtitle>
                       </v-list-item-content>
@@ -191,10 +182,7 @@
                   <nuxt-link :to="`/account/${item.delegator_address}`">{{ item.delegator_address }}</nuxt-link>
                 </template>
                 <template v-slot:item.shares="{ item }">
-                  {{ item.shares | toBtsg }}
-                  <span
-                    class="caption"
-                  >{{ $store.getters[`app/stakeDenom`] }}</span>
+                  <UIAmount :microAmount="item.shares" :denom="$store.getters[`app/stakeDenom`]" />
                 </template>
               </v-data-table>
             </v-card>
@@ -217,10 +205,7 @@
                   >{{ item.delegator_address | address }}</nuxt-link>
                 </template>
                 <template v-slot:item.amount="{ item }">
-                  {{ item.amount | toBtsg}}
-                  <span
-                    class="caption"
-                  >{{ $store.getters[`app/stakeDenom`] }}</span>
+                  <UIAmount :microAmount="item.amount" :denom="$store.getters[`app/stakeDenom`]" />
                 </template>
                 <template v-slot:item.completion_time="{ item }">{{ item.completion_time | toTime }}</template>
               </v-data-table>
@@ -256,10 +241,11 @@
 import gql from "graphql-tag";
 import { prettyRound, shortFilter } from "~/assets/utils";
 import getTitle from "~/assets/get-title";
-import { toBtsg, toMacroDenom, toTime } from "@/filters";
+import { toTime } from "@/filters";
 import BigNumber from "bignumber.js";
 
 import UIProposerAvatar from "@/components/UI/ProposerAvatar";
+import UIAmount from "@/components/UI/Amount";
 
 export default {
   head() {
@@ -270,7 +256,8 @@ export default {
     };
   },
   components: {
-    UIProposerAvatar
+    UIProposerAvatar,
+    UIAmount
   },
   asyncData({ params, error }) {
     const operatorAddress = params.validator;
@@ -282,8 +269,6 @@ export default {
   filters: {
     prettyRound,
     address: value => shortFilter(value, 12),
-    toBtsg,
-    toMacroDenom,
     toTime
   },
   data() {
