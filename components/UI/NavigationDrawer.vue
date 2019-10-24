@@ -104,6 +104,11 @@ export default {
           icon: "mdi-server-security",
           title: "Validators",
           to: "/validators"
+        },
+        {
+          icon: "mdi-vote",
+          title: "Governance",
+          to: "/governance"
         }
       ],
       links: [
