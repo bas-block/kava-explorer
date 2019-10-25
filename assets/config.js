@@ -37,5 +37,6 @@ export default {
   default_gas_price: dev ? 1e-9 : 2.5e-8, // recommended from Cosmos Docs
   version: process.env.RELEASE,
   decimals: 6,
-  consensusInterval: 1000
+  consensusInterval: 1000,
+  coingecko_id: process.env.COINGECKO_ID
 };
