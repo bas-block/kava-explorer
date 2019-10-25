@@ -38,9 +38,11 @@ export default {
       }
       if (this.valoper) {
         account.name = this.valoper;
+        account.link = `/validators/${this.valoper}`;
       }
       if (this.deladdr) {
         account.name = this.deladdr;
+        account.link = `/account/${this.deladdr}`;
       }
       if (!this.validators) return account;
 
