@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span style="word-break:break-all">
     <nuxt-link :to="account.link">{{ account.name }}</nuxt-link>
   </span>
 </template>
@@ -21,6 +21,9 @@ export default {
     }
   },
   computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.name === "xs";
+    },
     validators() {
       return this.$store.getters[`validators/validators`];
     },

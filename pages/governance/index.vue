@@ -12,7 +12,7 @@
             cols="12"
             md="6"
             class="px-2"
-            v-for="(proposal, index) in proposals"
+            v-for="proposal in proposalsFormatted"
             v-bind:key="proposal.id"
           >
             <v-card>
@@ -23,11 +23,11 @@
                   >#{{ proposal.id }} - {{ proposal.content.value.title }}</span>
                   <br />
                   <div class="body-2 grey--text text--darken-1">
-                    Submitted
+                    <UIProposer :deladdr="proposal.proposer" />&nbsp;·
                     <span>{{ getTime(proposal.submit_time) }}</span>
                   </div>
                 </v-col>
-                <v-col cols="4" align="end" align-self="center">
+                <v-col cols="3" align="end" align-self="center">
                   <v-chip
                     v-if="proposal.proposal_status === 'VotingPeriod'"
                     color="blue"
@@ -69,8 +69,21 @@
 <script>
 import parseISO from "date-fns/esm/parseISO";
 import formatDistanceStrict from "date-fns/esm/formatDistanceStrict";
+import gql from "graphql-tag";
+import getTitle from "~/assets/get-title";
+import UIProposer from "@/components/UI/Proposer";
 
 export default {
+  components: {
+    UIProposer
+  },
+  head() {
+    const title = getTitle("Governance");
+    return {
+      title: title,
+      meta: [{ hid: "og-title", name: "og:title", content: title }]
+    };
+  },
   methods: {
     getTime(timestamp, allowFuture = true) {
       if (typeof timestamp === "string") {
@@ -98,45 +111,34 @@ export default {
         : false;
     }
   },
-  data() {
-    return {
-      proposals: [
-        {
-          content: {
-            type: "cosmos-sdk/ParameterChangeProposal",
-            value: {
-              title: "Enable Send Bank Param Change",
-              description: "Enable Send",
-              changes: [
-                {
-                  subspace: "bank",
-                  key: "sendenabled",
-                  value: "true"
-                }
-              ]
+  apollo: {
+    allProposals: {
+      prefetch: true,
+      query: gql`
+        query allProposals {
+          allProposals {
+            id
+            content {
+              value {
+                title
+              }
             }
-          },
-          id: "1",
-          proposal_status: "VotingPeriod",
-          final_tally_result: {
-            yes: "0",
-            abstain: "0",
-            no: "0",
-            no_with_veto: "0"
-          },
-          submit_time: "2019-10-21T13:28:12.695225943Z",
-          deposit_end_time: "2019-10-28T13:28:12.695225943Z",
-          total_deposit: [
-            {
-              denom: "ubtsg",
-              amount: "512100000"
-            }
-          ],
-          voting_start_time: "2019-10-24T16:06:32.057020157Z",
-          voting_end_time: "2019-10-27T16:06:32.057020157Z"
+            submit_time
+            proposer
+            proposal_status
+            voting_start_time
+            voting_end_time
+          }
         }
-      ]
-    };
+      `
+    }
+  },
+  computed: {
+    proposalsFormatted() {
+      if (!this.allProposals) return [];
+
+      return this.allProposals;
+    }
   }
 };
 </script>
